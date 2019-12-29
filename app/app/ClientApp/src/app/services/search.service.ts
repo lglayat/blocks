@@ -10,17 +10,17 @@ import { query } from '@angular/animations';
 })
 export class SearchService {
 
-  baseUrl: string = "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query=";
+  baseUrl: string = "https://d.yimg.com/autoc.finance.yahoo.com/autoc?query=";
   UrlSuffix: string = "&lang=ENG";
-  API_TOKEN: string ="0TfbCcPV56v84s9bTk3LeNL7GOwu4Wx5UC4wFr3okoOPslKoR91nEhvzzj3Z";
+  API_TOKEN: string = "0TfbCcPV56v84s9bTk3LeNL7GOwu4Wx5UC4wFr3okoOPslKoR91nEhvzzj3Z";
 
 
   constructor(private _http: Http) { }
 
   search(queryString: string) {
-      let _URL = this.baseUrl + queryString + this.UrlSuffix;
+    //let _URL = "https://d.yimg.com/autoc.finance.yahoo.com/autoc?query=" + queryString + "&lang=ENG";
 
-      return this._http.get(_URL);
+    return this._http.get("https://api.worldtradingdata.com/api/v1/stock_search?search_term=" + queryString +  "&search_by=symbol,name&limit=5&page=1&api_token=" + this.API_TOKEN);
   }
 
   searchStockDetail(queryString: string) {
@@ -33,7 +33,7 @@ export class SearchService {
       return data;
      })
      .catch(error => console.log(error));*/
- }
+ }nh
 
   searchStockAnalysis(queryString: string) {
     fetch("https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-analysis?symbol="+ queryString, {

@@ -35,7 +35,7 @@ export class BlockComponent implements OnInit, OnDestroy {
 
   // chart options
   view: any[] = [500, 300];
-  public lineChartData: any[] = [];
+  lineChartData: any[] = [];
   legend: boolean = true;
   showLabels: boolean = true;
   animations: boolean = true;
@@ -78,8 +78,8 @@ export class BlockComponent implements OnInit, OnDestroy {
 
      console.log("Ticker: " + this.ticker);
      //this block gets the historical chart data
-     //var obs1 = this._searchService.searchStockHistorical(this.ticker);
-     //obs1.subscribe( res => this.drawHistorical(res["_body"])  );
+     var obs1 = this._searchService.searchStockHistorical(this.ticker);
+     obs1.subscribe( res => this.drawHistorical(res["_body"])  );
      //this block gets the stock details
      var obs2 = this._searchService.searchStockDetail(this.ticker);
      obs2.subscribe( res =>  this.makeSummary(res["_body"]));
@@ -120,7 +120,7 @@ export class BlockComponent implements OnInit, OnDestroy {
       }
       counter++;
     }
-    console.log(returnObj)
+   
    this.intradayData = returnObj;
    this.isIntradayAvailable = true;
   }
@@ -145,24 +145,14 @@ export class BlockComponent implements OnInit, OnDestroy {
       cutOff = moment().subtract(10, 'years');
     }
 
-    var returnObj = [
-      {
-        name: "Open",
-        series: []
-      },
-      {
-        name: "Close",
-        series: []
-      }
-    ]
+    var returnObj = []
 
     
     //filter out old data 
-    for(let i = 0; i < this.globalLineChartData[0].series.length;i++ ){
-      var itemDate = moment(this.globalLineChartData[0].series[i].name)
+    for(let i = 0; i < this.globalLineChartData.length;i++ ){
+      var itemDate = moment(this.globalLineChartData[i][0])
       if( itemDate.isSameOrAfter(cutOff) ){
-        returnObj[0].series.push( this.globalLineChartData[0].series[i] );
-        returnObj[1].series.push( this.globalLineChartData[1].series[i] );
+        returnObj.push( this.globalLineChartData[i] );
       }
     }
     this.lineChartData = returnObj;
@@ -202,30 +192,20 @@ export class BlockComponent implements OnInit, OnDestroy {
 
   drawHistorical(data){
 
-    var returnObj = [
-      {
-        name: "Open",
-        series: []
-      },
-      {
-        name: "Close",
-        series: []
-      }
-    ]
+    var returnObj = []
 
     //create data object for charting library with response data
     var obj = JSON.parse(data);
     let counter = 1;
     for (var item in obj["history"]){
-      if(counter == 15){
-        var arr = item.split(' '); //get label
-        returnObj[0]["series"].push({name: arr[0] ,value: obj["history"][item]["open"] });
-        returnObj[1]["series"].push({name: arr[0] ,value: obj["history"][item]["close"] });
+      if (counter == 15) {
+        var ref = obj["history"][item];
+        var arr = item.split(' '); //get label    
+        returnObj.push([arr[0], parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"]), parseFloat(ref["low"])])
         counter = 1;
       }
       counter++;
     }
-
 
     //supply the data for the chart
     this.lineChartData = returnObj;

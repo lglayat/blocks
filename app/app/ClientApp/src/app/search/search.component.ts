@@ -39,10 +39,10 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     //autocomplete logic
     this.ticker.valueChanges
-    .debounceTime(200)
-    .distinctUntilChanged()
+      .distinctUntilChanged()
+      .debounceTime(200)
     .switchMap( (query) => this._searchService.search(query) )
-    .subscribe( response => this.results = JSON.parse(response["_body"]).ResultSet.Result ) ;
+    .subscribe( response => this.showSearchResults(response) /*this.results = JSON.parse(response["_body"]).ResultSet.Result*/ ) ;
 
 
     //logic for populating stock <ul>
@@ -60,6 +60,12 @@ export class SearchComponent implements OnInit {
       this.newStock = {ticker: arr[0].trim() };
       this.store.dispatch(new AddStockAction(this.newStock));
       this.newStock = { ticker: '' };
+  }
+
+  showSearchResults(data) {
+    var obj = JSON.parse(data["_body"]);
+
+    this.results = obj["data"]
   }
 
 
