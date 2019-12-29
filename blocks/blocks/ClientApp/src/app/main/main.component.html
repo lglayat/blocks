@@ -1,0 +1,11 @@
+<div class="main-wrapper" style="text-align:center">
+  <div class="content">
+    <ul *ngFor="let s of stocks trackBy: trackStocks">
+      <li>
+        <app-block [ticker]=s></app-block>
+      </li>
+    </ul>
+  </div>
+</div>
+
+

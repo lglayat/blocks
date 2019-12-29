@@ -1,0 +1,16 @@
+ <mat-form-field class="example-full-width">
+    <mat-list role="list">
+      <mat-list-item role="listitem">
+        <input class="searchbar-input" matInput placeholder="Search" aria-label="Search" [formControl]="ticker" [matAutocomplete]="auto" autofocus/>
+      </mat-list-item> 
+    </mat-list>
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let result of results"  [value]="result.symbol">
+        <div name="ticker" (click)="addStockChart(name, ticker)" #ticker>{{result.symbol}} | {{result.name}}<!--{{result.exch}}--></div>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+
+
+

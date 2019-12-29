@@ -1,0 +1,87 @@
+.example-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+mat-sidenav {
+  width: 475px;
+}
+
+
+/* Style the navigation menu */
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+  position: relative;
+}
+
+.topnav-component {
+  background-color: rgb(255, 255, 255);
+}
+
+/* Hide the links inside the navigation menu (except for logo/home) */
+.topnav #myLinks {
+  display: none;
+}
+
+/* Style navigation menu links */
+.topnav a {
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+}
+
+/* Style the hamburger menu */
+.topnav a.icon {
+  background: "#564946";
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* Add a grey background color on mouse-over */
+
+.topnav i:hover {
+  color: rgb(165, 160, 160);
+}
+
+/* Style the active link (or home/logo) */
+.active {
+  background-color: #564946;
+  color: white;
+}
+
+.top {
+  background-color: #564946;
+}
+
+.search {
+  background-color: #558564;;
+}
+
+.topnav div {
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+}
+
+.store {
+  background-color: #6FBAAA;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+h1{
+  background-color: white;
+  color: white;
+}
+

@@ -1,0 +1,31 @@
+<div style="position:absolute; top:0; bottom:0; left:0; right: 0; display: flex; flex-direction: column;" >
+  <mat-sidenav-container class="example-container" >
+
+    <!-- Left Side -->
+    <mat-sidenav #sidenav [mode]="mode.value" class="sidenav">
+      <div class="topnav">
+        <div class="top"><i class="fa fa-bars" (click)="sidenav.toggle()"></i></div>
+        <div class="search"><app-search></app-search></div>
+        <div class="store">
+          <div>Your Selected Stocks</div>
+          <ul  *ngFor="let s of this.stocks trackBy: trackStocks">
+            <li >{{s.ticker}} <button id={{s.ticker}} mat-button mat-raised-button color="primary" (click)="deleteStock($event)">Delete</button> </li> 
+          </ul>
+        </div>
+      </div>
+    </mat-sidenav>
+    <!-- Left Side -->
+
+    <!-- Main Content -->
+    <mat-sidenav-content>
+      <div class="topnav">
+        <a href="#home" class="active"> <i class="fa fa-bars" (click)="sidenav.toggle()"></i></a>
+      </div>
+      <app-toolbar></app-toolbar>
+      <app-main></app-main>
+
+    </mat-sidenav-content>
+    <!-- Main Content -->
+
+  </mat-sidenav-container>
+</div>
