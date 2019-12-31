@@ -2,36 +2,31 @@
   <mat-toolbar-row>
     <mat-label> Historical Data Filters:  </mat-label>
     <div class="btn-group" dropdown>
-      <!--<button type="button" class="btn btn-primary"> Left </button>-->
       <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
               aria-controls="dropdown-animated">
         {{ this.interval.length > 0  ? this.interval : 'Set Interval' }} <span class="caret"></span>
       </button>
       <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
+        <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">1 Month</a></li>
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">3 Months</a></li>
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">6 Months</a></li>
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">1 Year</a></li>
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">5 Years</a></li>
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">10 Years</a></li>
       </ul>
-
-      <!--<button type="button" class="btn btn-primary"> Right</button>-->
     </div>
 
     <mat-label> Intraday Data Filters:  </mat-label>
     <div class="btn-group" dropdown>
-      <!--<button type="button" class="btn btn-primary"> Left </button>-->
       <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
               aria-controls="dropdown-animated">
-        {{ this.interval.length > 0  ? this.interval : 'Set Interval' }} <span class="caret"></span>
+        {{ this.intradayInterval.length > 0  ? this.intradayInterval : 'Set Interval' }} <span class="caret"></span>
       </button>
       <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
-        <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">1 Day</a></li>
-        <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">3 Days</a></li>
-        <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">1 Week</a></li>
+        <li (click)="setIntradayInterval($event)" role="menuitem"><a class="dropdown-item" href="#">1 Day</a></li>
+        <li (click)="setIntradayInterval($event)" role="menuitem"><a class="dropdown-item" href="#">3 Days</a></li>
+        <li (click)="setIntradayInterval($event)" role="menuitem"><a class="dropdown-item" href="#">1 Week</a></li>
       </ul>
-
-      <!--<button type="button" class="btn btn-primary"> Right</button>-->
     </div>
 
 

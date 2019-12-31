@@ -18,7 +18,7 @@ export class BlockComponent implements OnInit, OnDestroy {
   @Input() ticker: string;
   @Output() destroyCheck:EventEmitter<string>=new EventEmitter<string>();
  
-  //instance variables
+  //booleans for showing/hiding charts
   public showSummary: boolean = false;
   public showChart: boolean = false;
   public showIntraday: boolean = true;
@@ -28,66 +28,52 @@ export class BlockComponent implements OnInit, OnDestroy {
   
   //time interval
   currentInterval: string;
+  currentIntradayInterval: string;
 
-  //data objects
+  //data 
   public summary: Summary;
   public globalLineChartData: any[];
+  public globalIntradayData = [];
 
-  // chart options
-  view: any[] = [500, 300];
-  lineChartData: any[] = [];
-  legend: boolean = true;
-  showLabels: boolean = true;
-  animations: boolean = true;
-  xAxis: boolean = true;
-  yAxis: boolean = true;
-  showYAxisLabel: boolean = false;
-  showXAxisLabel: boolean = false;
-  yAxisTicksIntraday: any[] = []
-  xAxisLabel: string = 'Date';
-  yAxisLabel: string = 'Price';
-  timeline: boolean = true;
-
-  colorScheme = {
-    domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
-  };
-
-  //candlestick
+  //chart variables
   title = this.ticker;
   type = 'CandlestickChart';
   intradayData = [];
-  columnNames = ["Date", "High", "Low", "Open", "Close"];
+  lineChartData: any[] = [];
+  columnNames = ["Date", "Price", "Low", "Open", "Close"];
   options = { };
   width = 500;
   height = 300;
-
 
   constructor(
     private _searchService: SearchService,
     private store: Store<AppState>, 
     private _toolbarService: ToolbarService) {
     
-      _toolbarService.intervalsAnnounced$.subscribe(
-        interval => {
-          this.updateInterval(interval);
-        })
+    _toolbarService.intervalsAnnounced$.subscribe(
+      interval => {
+        this.updateInterval(interval);
+      })
+
+    _toolbarService.intradayIntervalsAnnounced$.subscribe(
+      interval => {
+        this.updateIntradayInterval(interval);
+      })
   }
      
 
   ngOnInit() {
 
      console.log("Ticker: " + this.ticker);
-     //this block gets the historical chart data
+     
      var obs1 = this._searchService.searchStockHistorical(this.ticker);
      obs1.subscribe( res => this.drawHistorical(res["_body"])  );
-     //this block gets the stock details
-     var obs2 = this._searchService.searchStockDetail(this.ticker);
-     obs2.subscribe( res =>  this.makeSummary(res["_body"]));
-     //get intraday data
+    
+     //var obs2 = this._searchService.searchStockDetail(this.ticker);
+     //obs2.subscribe( res =>  this.makeSummary(res["_body"]));
+  
      var obs3 = this._searchService.searchStockIntraday(this.ticker);
      obs3.subscribe( res =>  this.drawIntraday(res["_body"]));
-     
-
 
      //this one pulls news im working on it
      
@@ -105,23 +91,27 @@ export class BlockComponent implements OnInit, OnDestroy {
    }
 
    drawIntraday( data){
-     //console.log(data)
     var returnObj = []
 
     var obj = JSON.parse(data);
     let counter = 1;
-    
+    console.log(obj)
     for (var item in obj["intraday"]){
       if(counter == 5){
         var ref = obj["intraday"][item];
-        var arr = item.split(' '); //get label    
-        returnObj.push([arr[1], parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"]), parseFloat(ref["low"])])
+        var arr = item.split(' '); //get label
+        console.log(arr)
+        let label = arr[0].substring(5) + " " + arr[1].slice(0, -3)
+        
+        returnObj.push([label, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
         counter = 1;
       }
       counter++;
-    }
+     }
+     
    
    this.intradayData = returnObj;
+   //this.globalIntradayData = returnObj;
    this.isIntradayAvailable = true;
   }
 
@@ -129,7 +119,10 @@ export class BlockComponent implements OnInit, OnDestroy {
     //console.log("new interval "  + data);
     var cutOff;
 
-    if(data == "3 Months"){
+    if(data == "1 Month"){
+      cutOff = moment().subtract(1, 'months');
+    }
+    else if (data == "3 Months") {
       cutOff = moment().subtract(3, 'months');
     }
     else if(data == "6 Months"){
@@ -151,12 +144,45 @@ export class BlockComponent implements OnInit, OnDestroy {
     //filter out old data 
     for(let i = 0; i < this.globalLineChartData.length;i++ ){
       var itemDate = moment(this.globalLineChartData[i][0])
-      if( itemDate.isSameOrAfter(cutOff) ){
+      if (itemDate.isSameOrAfter(cutOff)) {
+        console.log(this.globalLineChartData[i] )
         returnObj.push( this.globalLineChartData[i] );
       }
     }
     this.lineChartData = returnObj;
    }
+
+  updateIntradayInterval(data) {
+    var cutOff;
+
+    if (data == "1 Day") {
+      cutOff = moment().subtract(1, "days");
+    }
+    else if (data == "3 Days") {
+      cutOff = moment().subtract(3, "days");
+    }
+
+
+    var returnObj = []
+    console.log(this.globalIntradayData)
+
+    //filter out old data 
+    for (let i = 0; i < this.globalIntradayData.length; i++) {
+      console.log(this.globalIntradayData[i][0])
+      var itemDate = moment(this.globalIntradayData[i][0])
+      if (itemDate.isSameOrAfter(cutOff)) {
+        returnObj.push(this.globalIntradayData[i]);
+      }
+    }
+
+    if (returnObj.length > 0) {
+      this.intradayData = returnObj;
+    }
+    else {
+      console.log("no data left")
+    }
+
+  }
 
   makeSummary(data){
     var obj = JSON.parse(data);
@@ -200,8 +226,9 @@ export class BlockComponent implements OnInit, OnDestroy {
     for (var item in obj["history"]){
       if (counter == 15) {
         var ref = obj["history"][item];
-        var arr = item.split(' '); //get label    
-        returnObj.push([arr[0], parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"]), parseFloat(ref["low"])])
+        var arr = item.split(' '); //get label
+        let label = arr[0]//.substring(2)
+        returnObj.push([ label, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
         counter = 1;
       }
       counter++;

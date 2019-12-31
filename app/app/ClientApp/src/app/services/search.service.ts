@@ -24,32 +24,7 @@ export class SearchService {
   }
 
   searchStockDetail(queryString: string) {
-    return this._http.get("https://api.worldtradingdata.com/api/v1/stock?symbol=" + queryString + "&api_token=" + this.API_TOKEN);
-    /*.then(function(response) {
-      return response.json();
-    })
-    .then(function(data) {
-      console.log(data);
-      return data;
-     })
-     .catch(error => console.log(error));*/
- }nh
-
-  searchStockAnalysis(queryString: string) {
-    fetch("https://apidojo-yahoo-finance-v1.p.rapidapi.com/stock/v2/get-analysis?symbol="+ queryString, {
-    	"method": "GET",
-    	"headers": {
-    		"x-rapidapi-host": "apidojo-yahoo-finance-v1.p.rapidapi.com",
-    		"x-rapidapi-key": "1v5lffmskPmshF2wBBGo5ITgyFfap1qrpFUjsnWlXmSVs6tmd9"
-    	}
-    })
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(data) {
-      console.log(data);
-      return data;
-    });
+    return this._http.get("https://api.worldtradingdata.com/api/v1/stock?symbol=" + queryString + "&api_token=" + this.API_TOKEN); 
   }
 
   searchStockHistorical(queryString: string){
@@ -57,7 +32,7 @@ export class SearchService {
   }
 
   searchStockIntraday(queryString: string){
-    return this._http.get("https://intraday.worldtradingdata.com/api/v1/intraday?symbol=" + queryString + "&sort=asc&range=1&interval=5&api_token=" + this.API_TOKEN);
+    return this._http.get("https://intraday.worldtradingdata.com/api/v1/intraday?symbol=" + queryString + "&sort=asc&range=5&interval=60&api_token=0TfbCcPV56v84s9bTk3LeNL7GOwu4Wx5UC4wFr3okoOPslKoR91nEhvzzj3Z");
   }
 
   searchStockNews(queryString: string){
