@@ -5,34 +5,18 @@
 
         <div *ngIf="isDataAvailable && showChart">
           <google-chart #chart
-                        [title]="title"
-                        [type]="type"
-                        [data]="lineChartData"
-                        [columnNames]="columnNamess"
-                        [options]="options"
-                        [width]="width"
-                        [height]="height">
+            [title]="title"
+            [type]="type"
+            [data]="lineChartData"
+            [columnNames]="columnNamess"
+            [options]="options"
+            [width]="width"
+            [height]="height">
           </google-chart>
-          <!--<ngx-charts-line-chart
-      [view]="view"
-      [scheme]="colorScheme"
-      [legend]="legend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxis]="xAxis"
-      [yAxis]="yAxis"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      [timeline]="timeline"
-      [results]="lineChartData"
-      (select)="onSelect($event)"
-      (activate)="onActivate($event)"
-      >
-    </ngx-charts-line-chart>-->
         </div>
 
         <div *ngIf="isIntradayAvailable && showIntraday">
-            <google-chart #chart
+          <google-chart #chart
             [title]="title"
             [type]="type"
             [data]="intradayData"
@@ -40,7 +24,7 @@
             [options]="options"
             [width]="width"
             [height]="height">
-         </google-chart>
+          </google-chart>
         </div>
 
         <div *ngIf="isSummaryAvailable && showSummary">
