@@ -32,7 +32,7 @@ export class SearchService {
   }
 
   searchStockIntraday(queryString: string){
-    return this._http.get("https://intraday.worldtradingdata.com/api/v1/intraday?symbol=" + queryString + "&sort=asc&range=5&interval=60&api_token=0TfbCcPV56v84s9bTk3LeNL7GOwu4Wx5UC4wFr3okoOPslKoR91nEhvzzj3Z");
+    return this._http.get("https://intraday.worldtradingdata.com/api/v1/intraday?symbol=" + queryString + "&sort=asc&range=3&interval=15&api_token=0TfbCcPV56v84s9bTk3LeNL7GOwu4Wx5UC4wFr3okoOPslKoR91nEhvzzj3Z");
   }
 
   searchStockNews(queryString: string){
