@@ -190,7 +190,6 @@ export class BlockComponent implements OnInit, OnDestroy {
         var ref = obj["history"][item];
         var arr = item.split(' '); //get label
         let label = arr[0]//.substring(2)
-        console.log([label, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
         returnObj.push([ label, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
         counter = 1;
       }
