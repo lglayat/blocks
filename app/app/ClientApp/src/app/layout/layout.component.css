@@ -45,8 +45,10 @@ mat-sidenav {
   top: 0;
 }
 
-/* Add a grey background color on mouse-over */
 
+
+
+/* Add a grey background color on mouse-over */
 .topnav i:hover {
   color: rgb(165, 160, 160);
 }
@@ -61,6 +63,7 @@ mat-sidenav {
   background-color: #564946;
 }
 
+
 .search {
   background-color: #558564;;
 }
@@ -72,6 +75,8 @@ mat-sidenav {
   font-size: 17px;
   display: block;
 }
+
+
 
 .store {
   background-color: #6FBAAA;

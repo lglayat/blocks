@@ -1,11 +1,30 @@
-<div class="main-wrapper" style="text-align:center">
-  <div class="content">
-    <ul *ngFor="let s of stocks trackBy: trackStocks">
-      <li>
-        <app-block [ticker]=s></app-block>
-      </li>
-    </ul>
+
+  <div class="main-wrapper" style="text-align:center">
+
+    <div class="content">
+      <ul *ngFor="let s of stocks trackBy: trackStocks">
+        <li>
+          <app-block [ticker]=s></app-block>
+        </li>
+      </ul>
+    </div>
+
+    <mat-sidenav #sidenav2 opened="{{message}}" [mode]="side" class="sidenav2" position="end">
+      <div class="topnav2">
+        <div class="top2"><i class="fa fa-bars" (click)="toggleRightNav()"></i></div>
+
+        <div #newsArea *ngFor="let news of allNewsData">
+          <h5>{{news.title}}</h5>
+          <a href="{{news.news_url}}"> {{news.source_name}} </a>
+          <img src="{{news.image_url}}" alt="/" height="100" width="100" />
+          <br />
+          <mat-divider></mat-divider>
+      
+        </div>
+
+      </div>
+    </mat-sidenav>
+
   </div>
-</div>
 
 
