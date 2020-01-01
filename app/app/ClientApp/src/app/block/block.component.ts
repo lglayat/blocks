@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, ViewChild, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { SearchService } from '../services/search.service';
 import { ToolbarService } from "../services/toolbar.service";
+import { NewsService } from "../services/news.service";
+
 import { Summary } from './Summary';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../store/app-state.model';
@@ -14,9 +16,9 @@ import * as moment from 'moment'
   styleUrls: ['./block.component.css']
 })
 export class BlockComponent implements OnInit, OnDestroy {
-
+  
   @Input() ticker: string;
-  @Output() destroyCheck:EventEmitter<string>=new EventEmitter<string>();
+  @Output() destroyCheck:EventEmitter<string> = new EventEmitter<string>();
  
   //booleans for showing/hiding charts
   public showSummary: boolean = false;
@@ -31,14 +33,14 @@ export class BlockComponent implements OnInit, OnDestroy {
 
   //data 
   public summary: Summary;
-  public globalLineChartData: any[];
+  public globalHistoricalData: any[];
   public globalIntradayData = [];
 
   //chart variables
   title = this.ticker;
   type = 'CandlestickChart';
   intradayData = [];
-  lineChartData: any[] = [];
+  historicalData: any[] = [];
   columnNames = ["Date", "Price", "Low", "Open", "Close"];
   options = { };
   width = 500;
@@ -47,44 +49,37 @@ export class BlockComponent implements OnInit, OnDestroy {
   constructor(
     private _searchService: SearchService,
     private store: Store<AppState>, 
-    private _toolbarService: ToolbarService) {
+    private _toolbarService: ToolbarService,
+    private _newsService: NewsService) {
     
     _toolbarService.intervalsAnnounced$.subscribe(
       interval => {
         this.updateInterval(interval);
       })
 
-
   }
-     
+
 
   ngOnInit() {
 
      console.log("Ticker: " + this.ticker);
-     
-     var obs1 = this._searchService.searchStockHistorical(this.ticker);
-     obs1.subscribe( res => this.drawHistorical(res["_body"])  );
+
+     var obs = this._searchService.searchStockDetail(this.ticker);
+     obs.subscribe(res => this.makeSummary(res["_body"]));
+
+     var obs2 = this._searchService.searchStockHistorical(this.ticker);
+     obs2.subscribe( res => this.drawHistorical(res["_body"])  );
     
-     var obs2 = this._searchService.searchStockDetail(this.ticker);
-     obs2.subscribe( res =>  this.makeSummary(res["_body"]));
-  
      var obs3 = this._searchService.searchStockIntraday(this.ticker);
      obs3.subscribe( res =>  this.drawIntraday(res["_body"]));
-
-     //this one pulls news im working on it
-     
-     //var obs4 = this._searchService.searchStockNews(this.ticker);
-     //obs4.subscribe( res =>  this.drawNews(res["_body"]));
-     
+        
    }
 
-   toggleNews(){
-     
+  toggleNews() {
+    console.log()
+    this._newsService.announceNews(this.ticker);
    }
 
-   drawNews(data){
-     console.log(data)
-   }
 
    drawIntraday( data){
       var returnObj = []
@@ -135,15 +130,15 @@ export class BlockComponent implements OnInit, OnDestroy {
 
     
     //filter out old data 
-    for(let i = 0; i < this.globalLineChartData.length;i++ ){
-      var itemDate = moment(this.globalLineChartData[i][0])
+    for(let i = 0; i < this.globalHistoricalData.length;i++ ){
+      var itemDate = moment(this.globalHistoricalData[i][0])
       if (itemDate.isSameOrAfter(cutOff)) {
-        console.log(this.globalLineChartData[i])
-        returnObj.push( this.globalLineChartData[i] );
+        console.log(this.globalHistoricalData[i])
+        returnObj.push(this.globalHistoricalData[i] );
       }
     }
-    this.lineChartData = returnObj;
-   }
+    this.historicalData = returnObj;
+  }
 
 
   makeSummary(data){
@@ -196,11 +191,8 @@ export class BlockComponent implements OnInit, OnDestroy {
       counter++;
     }
 
-    //supply the data for the chart
-    this.lineChartData = returnObj;
-    //save all data in case we zoom in or out
-    this.globalLineChartData = returnObj;
-    //let page know it can render the chart
+    this.historicalData = returnObj;
+    this.globalHistoricalData = returnObj;
     this.isDataAvailable = true
   }
 
