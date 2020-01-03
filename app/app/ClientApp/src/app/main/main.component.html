@@ -13,13 +13,15 @@
       <div class="topnav2">
         <div class="top2"><i class="fa fa-bars" (click)="toggleRightNav()"></i></div>
 
-        <div #newsArea *ngFor="let news of allNewsData">
+        <div id="newsArea" #newsArea *ngFor="let news of allNewsData">
           <h5>{{news.title}}</h5>
-          <a href="{{news.news_url}}"> {{news.source_name}} </a>
+          <p>{{news.text}}</p>
+
+          <a href="{{news.news_url}}" style="color:blue;"> {{news.source_name}} </a>
           <img src="{{news.image_url}}" alt="/" height="100" width="100" />
           <br />
           <mat-divider></mat-divider>
-      
+
         </div>
 
       </div>

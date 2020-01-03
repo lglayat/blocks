@@ -44,7 +44,14 @@ export class BlockComponent implements OnInit, OnDestroy {
   intradayData = [];
   historicalData: any[] = [];
   columnNames = ["Date", "Price", "Low", "Open", "Close"];
-  options = {};
+
+  options = {
+    candlestick: {
+      risingColor: { strokeWidth: 0, fill: '#0f9d58' },
+      fallingColor: { strokeWidth: 0, fill: '#a52714' },
+    }
+  };
+
   width = 500;
   height = 300;
 
@@ -66,16 +73,12 @@ export class BlockComponent implements OnInit, OnDestroy {
 
     console.log("Ticker: " + this.ticker);
 
+    
     var obs = this._searchService.searchStockDetail(this.ticker).pipe(first())
       .subscribe(res => this.makeSummary(res["_body"]));;
 
     var obs2 = this._searchService.searchStockHistorical(this.ticker).pipe(first())
       .subscribe(res => this.drawHistorical(res["_body"]));
-
-    var obs3 = this._searchService.searchStockIntraday(this.ticker);
-    obs3.subscribe(res => this.drawIntraday(res["_body"]));
-    
-
 
 
     var format = 'hh:mm:ss'
@@ -109,7 +112,6 @@ export class BlockComponent implements OnInit, OnDestroy {
 
 
   drawIntraday(data) {
-     console.log("drawing intraday")
       var returnObj = []
       var obj = JSON.parse(data);
 
@@ -124,10 +126,7 @@ export class BlockComponent implements OnInit, OnDestroy {
         returnObj.push([label, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
         counter++;
       }
-   
      }
-
-
 
     this.intradayData = returnObj.splice(0,50).reverse();
      this.isIntradayAvailable = true;
@@ -137,7 +136,10 @@ export class BlockComponent implements OnInit, OnDestroy {
     //console.log("new interval "  + data);
     var cutOff;
 
-    if(data == "1 Month"){
+    if (data == "1 Week") {
+      cutOff = moment().subtract(1, 'weeks');
+    }
+    else if(data == "1 Month"){
       cutOff = moment().subtract(1, 'months');
     }
     else if (data == "3 Months") {
@@ -163,7 +165,6 @@ export class BlockComponent implements OnInit, OnDestroy {
     for(let i = 0; i < this.globalHistoricalData.length;i++ ){
       var itemDate = moment(this.globalHistoricalData[i][0])
       if (itemDate.isSameOrAfter(cutOff)) {
-        console.log(this.globalHistoricalData[i])
         returnObj.push(this.globalHistoricalData[i] );
       }
     }

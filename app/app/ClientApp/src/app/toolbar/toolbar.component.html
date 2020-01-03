@@ -7,6 +7,7 @@
         {{ this.interval.length > 0  ? this.interval : 'Set Interval' }} <span class="caret"></span>
       </button>
       <ul id="dropdown-animated" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-animated">
+        <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">1 Week</a></li>
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">1 Month</a></li>
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">3 Months</a></li>
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">6 Months</a></li>
