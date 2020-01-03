@@ -2,8 +2,9 @@ import { Component, OnInit, Input, ViewChild, OnDestroy, Output, EventEmitter } 
 import { SearchService } from '../services/search.service';
 import { ToolbarService } from "../services/toolbar.service";
 import { NewsService } from "../services/news.service";
-
 import { Summary } from './Summary';
+import { first } from 'rxjs/operators';
+import { timer } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../store/app-state.model';
 import { DeleteStockAction } from '../store/stock.actions';
@@ -16,10 +17,10 @@ import * as moment from 'moment'
   styleUrls: ['./block.component.css']
 })
 export class BlockComponent implements OnInit, OnDestroy {
-  
+
   @Input() ticker: string;
-  @Output() destroyCheck:EventEmitter<string> = new EventEmitter<string>();
- 
+  @Output() destroyCheck: EventEmitter<string> = new EventEmitter<string>();
+
   //booleans for showing/hiding charts
   public showSummary: boolean = false;
   public showChart: boolean = false;
@@ -27,9 +28,10 @@ export class BlockComponent implements OnInit, OnDestroy {
   public isIntradayAvailable: boolean = false;
   public isDataAvailable: boolean = false;
   public isSummaryAvailable: boolean = false;
-  
+
   //time interval
   currentInterval: string;
+  afterHours: boolean;
 
   //data 
   public summary: Summary;
@@ -42,16 +44,16 @@ export class BlockComponent implements OnInit, OnDestroy {
   intradayData = [];
   historicalData: any[] = [];
   columnNames = ["Date", "Price", "Low", "Open", "Close"];
-  options = { };
+  options = {};
   width = 500;
   height = 300;
 
   constructor(
     private _searchService: SearchService,
-    private store: Store<AppState>, 
+    private store: Store<AppState>,
     private _toolbarService: ToolbarService,
     private _newsService: NewsService) {
-    
+
     _toolbarService.intervalsAnnounced$.subscribe(
       interval => {
         this.updateInterval(interval);
@@ -62,18 +64,43 @@ export class BlockComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-     console.log("Ticker: " + this.ticker);
+    console.log("Ticker: " + this.ticker);
 
-     var obs = this._searchService.searchStockDetail(this.ticker);
-     obs.subscribe(res => this.makeSummary(res["_body"]));
+    var obs = this._searchService.searchStockDetail(this.ticker).pipe(first())
+      .subscribe(res => this.makeSummary(res["_body"]));;
 
-     var obs2 = this._searchService.searchStockHistorical(this.ticker);
-     obs2.subscribe( res => this.drawHistorical(res["_body"])  );
+    var obs2 = this._searchService.searchStockHistorical(this.ticker).pipe(first())
+      .subscribe(res => this.drawHistorical(res["_body"]));
+
+    var obs3 = this._searchService.searchStockIntraday(this.ticker);
+    obs3.subscribe(res => this.drawIntraday(res["_body"]));
     
-     var obs3 = this._searchService.searchStockIntraday(this.ticker);
-     obs3.subscribe( res =>  this.drawIntraday(res["_body"]));
-        
-   }
+
+
+
+    var format = 'hh:mm:ss'
+    var time = moment()
+    var beforeTime = moment('09:30:00', format)
+    var afterTime = moment('16:00:00', format)
+
+    if (time.isBetween(beforeTime, afterTime)) {
+
+      console.log('market is open: live updating...')
+      const source = timer(0, 60000 /*300000*/);
+      const s = source.subscribe(val => this._searchService.searchStockIntraday(this.ticker)
+        .subscribe(res => this.drawIntraday(res["_body"])));
+
+      this.afterHours = false;
+
+    } else {
+
+      console.log('after hours')
+      var obs2 = this._searchService.searchStockIntraday(this.ticker).pipe(first())
+        .subscribe(res => this.drawIntraday(res["_body"]));
+
+    }
+  }
+
 
   toggleNews() {
     console.log()
@@ -81,25 +108,28 @@ export class BlockComponent implements OnInit, OnDestroy {
    }
 
 
-   drawIntraday( data){
+  drawIntraday(data) {
+     console.log("drawing intraday")
       var returnObj = []
-
       var obj = JSON.parse(data);
-      let counter = 1;
+
       console.log(obj)
-      for (var item in obj["intraday"]){
-        if(counter == 5){
-          var ref = obj["intraday"][item];
-          var arr = item.split(' '); //get label
-          let label = arr[0].substring(5) + " " + arr[1].slice(0, -3)
-          returnObj.push([label, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
-          counter = 1;
-        }
+
+    let counter = 0;
+    for (var item in obj["intraday"]) {
+      if (counter < 40) {
+        var ref = obj["intraday"][item];
+        var arr = item.split(' '); //get label
+        let label = arr[1].slice(0, -3)
+        returnObj.push([label, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
         counter++;
       }
-     
+   
+     }
 
-     this.intradayData = returnObj;
+
+
+    this.intradayData = returnObj.splice(0,50).reverse();
      this.isIntradayAvailable = true;
   }
 
