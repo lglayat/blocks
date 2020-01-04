@@ -18,12 +18,12 @@
 
     <!-- Main Content -->
     <mat-sidenav-content>
+
       <div class="topnav">
-
-        <a href="#home" class="active" >
+        <div class="topIcons">
           <i class="fa fa-bars" (click)="sidenav.toggle()"></i>
-                  </a>
-
+          <button id="about" mat-raised-button (click)="openDialog()">FAQ</button>
+        </div>
       </div>
 
       <app-toolbar></app-toolbar>
@@ -31,18 +31,6 @@
       <app-main></app-main>
 
     </mat-sidenav-content>
-    <!-- Main Content -->
-
-    <!-- Right Sidenav-->
-    <!--
-    <mat-sidenav #sidenav2 opened="true" [mode]="side" class="sidenav2" position="end">
-      <div class="topnav2">
-        <div class="top2"><i class="fa fa-bars" (click)="sidenav2.toggle()"></i></div>
-        <p> hi</p>
-      </div>
-    </mat-sidenav>
-      --->
-    <!--Right Sidenav-->
 
   </mat-sidenav-container>
 </div>

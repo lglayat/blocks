@@ -90,3 +90,14 @@ h1{
   color: white;
 }
 
+
+div .topIcons {
+ 
+  top: 50%;
+}
+
+#about {
+  float: right;
+  margin-left: -50%;
+
+}

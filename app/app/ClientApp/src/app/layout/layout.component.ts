@@ -8,6 +8,8 @@ import  { AppState } from '../store/app-state.model';
 import  { Stock }  from '../store/stock.model';
 import {AddStockAction, DeleteStockAction } from '../store/stock.actions';
 
+import { GreetingComponent } from '../greeting/greeting.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
@@ -17,11 +19,11 @@ export class LayoutComponent implements OnInit {
 
   mode = new FormControl('over');
   shouldRun = [/(^|\.)plnkr\.co$/, /(^|\.)stackblitz\.io$/].some(h => h.test(window.location.host));
-
   items$: Observable<Array<Stock>>;
   stocks: string[] = [];
+  busy = false;
 
-  constructor(private store: Store<AppState>){}
+  constructor(private store: Store<AppState>, public dialog: MatDialog){}
 
   ngOnInit() {
     this.items$ = this.store.select(store => store.stocks);
@@ -30,6 +32,8 @@ export class LayoutComponent implements OnInit {
       err => console.error('Observer got an error: ' + err),
       () => console.log('Observer got a complete notification')
     );
+
+    this.openDialog();
   }
 
   deleteStock(event){
@@ -44,6 +48,23 @@ export class LayoutComponent implements OnInit {
 
   trackStocks(index: number, element: any){
     return element ? element.ticker : null
+  }
+
+
+  openDialog(): void {
+    this.busy = true;
+    const dialogRef = this.dialog.open(GreetingComponent, {
+      width: '50%',
+      height: '50%'
+    });
+
+    dialogRef.afterOpened().subscribe(result => {
+      this.busy = false;
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+
+    });
   }
 
 }

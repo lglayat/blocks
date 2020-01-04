@@ -13,6 +13,8 @@ import { LayoutComponent } from './layout/layout.component';
 import { BlockComponent } from './block/block.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MainComponent } from './main/main.component';
+import { GreetingComponent } from './greeting/greeting.component';
+
 
 import { MaterialModule } from './material/material.module';
 import { ToolbarService } from './services/toolbar.service';
@@ -37,7 +39,8 @@ import { GoogleChartsModule } from 'angular-google-charts';
     LayoutComponent,
     MainComponent,
     BlockComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    GreetingComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
   ],
   providers: [SearchService, ToolbarService],
   bootstrap: [AppComponent],
-  entryComponents: [BlockComponent]
+  entryComponents: [BlockComponent, GreetingComponent]
 
 })
 export class AppModule { }
