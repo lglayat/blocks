@@ -2,17 +2,11 @@ import { Component,
     OnInit,
     Input,
     Directive,
-    ViewChild,
-    ViewContainerRef,
-    ComponentFactoryResolver,
-    ComponentRef,
-    ComponentFactory
+    ViewChild
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { NewsService } from "../services/news.service";
 import { SearchService } from '../services/search.service';
-
-
 import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import  { AppState } from '../store/app-state.model';

@@ -2,8 +2,8 @@
   <div class="main-wrapper" style="text-align:center">
 
     <div class="content">
-      <ul *ngFor="let s of stocks trackBy: trackStocks">
-        <li>
+      <ul>
+        <li *ngFor="let s of stocks trackBy: trackStocks">
           <app-block [ticker]=s></app-block>
         </li>
       </ul>
@@ -11,17 +11,20 @@
 
     <mat-sidenav #sidenav2 opened="{{message}}" [mode]="side" class="sidenav2" position="end">
       <div class="topnav2">
-        <div class="top2"><i class="fa fa-bars" (click)="toggleRightNav()"></i></div>
+
+        <div class="top2">
+          <i class="fa fa-bars" (click)="toggleRightNav()"></i>
+        </div>
 
         <div id="newsArea" #newsArea *ngFor="let news of allNewsData">
-          <h5>{{news.title}}</h5>
-          <p>{{news.text}}</p>
+          <div id="newsContent">
+            <h4><a href="{{news.news_url}}" style="color:white;">{{news.title}} </a></h4>
+            <p>{{news.source_name}}</p>
+            <!--{{news.text}}-->
 
-          <a href="{{news.news_url}}" style="color:blue;"> {{news.source_name}} </a>
+          </div>
           <img src="{{news.image_url}}" alt="/" height="100" width="100" />
-          <br />
           <mat-divider></mat-divider>
-
         </div>
 
       </div>

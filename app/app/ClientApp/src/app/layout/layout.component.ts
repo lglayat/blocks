@@ -10,6 +10,7 @@ import {AddStockAction, DeleteStockAction } from '../store/stock.actions';
 
 import { GreetingComponent } from '../greeting/greeting.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',

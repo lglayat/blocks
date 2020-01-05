@@ -4,14 +4,18 @@
     <!-- Left Side -->
     <mat-sidenav #sidenav [mode]="mode.value" class="sidenav">
       <div class="topnav">
+
         <div class="top"><i class="fa fa-bars" (click)="sidenav.toggle()"></i></div>
+
         <div class="search"><app-search></app-search></div>
+
         <div class="store">
           <div>Your Selected Stocks</div>
           <ul *ngFor="let s of this.stocks trackBy: trackStocks">
             <li>{{s.ticker}} <button id={{s.ticker}} mat-button mat-raised-button color="primary" (click)="deleteStock($event)">Delete</button> </li>
           </ul>
         </div>
+
       </div>
     </mat-sidenav>
     <!-- Left Side -->
@@ -20,7 +24,7 @@
     <mat-sidenav-content>
 
       <div class="topnav">
-        <div class="topIcons">
+        <div class="top">
           <i class="fa fa-bars" (click)="sidenav.toggle()"></i>
           <button id="about" mat-raised-button (click)="openDialog()">FAQ</button>
         </div>

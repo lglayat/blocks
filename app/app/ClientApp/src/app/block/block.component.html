@@ -3,7 +3,7 @@
     <div class="flex-item">
       <div style="display: block;">
 
-        <div *ngIf="isDataAvailable && showChart">
+        <div *ngIf="isDataAvailable && showHistorical">
           <google-chart #chart
             [title]="title"
             [type]="type"
@@ -56,9 +56,12 @@
       <div class="button-wrapper">
         <button mat-button color="primary"> {{ticker}} </button>
         <button mat-button mat-raised-button color="primary" (click)="toggleNews()">News</button>
-        <button mat-button mat-raised-button color="primary" (click)="toggleSummary()">Summary</button>
-        <button mat-button mat-raised-button color="primary" (click)="toggleIntraday()">Intraday</button>
-        <button mat-button mat-raised-button color="primary" (click)="toggleChart()">Historical</button>
+        <button *ngIf="!showSummary" mat-button mat-raised-button color="primary" (click)="toggleSummary()">Summary</button>
+        <button *ngIf="showSummary" mat-button mat-raised-button color="accent" (click)="toggleSummary()">Summary</button>
+        <button *ngIf="!showIntraday" mat-button mat-raised-button color="primary" (click)="toggleIntraday()">Intraday</button>
+        <button *ngIf="showIntraday" mat-button mat-raised-button color="accent" (click)="toggleIntraday()">Intraday</button>
+        <button *ngIf="!showHistorical" mat-button mat-raised-button color="primary" (click)="toggleChart()">Historical</button>
+        <button *ngIf="showHistorical" mat-button mat-raised-button color="accent" (click)="toggleChart()">Historical</button>
         <button mat-button mat-raised-button color="warn" (click)="deleteStock()">Delete</button>
       </div>
 

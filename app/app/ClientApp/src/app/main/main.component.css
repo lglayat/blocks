@@ -1,41 +1,11 @@
-#wrapper {
-  text-align: center;
-  color: white;
-  display: flex;
-  height: 100vh;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0px;
-  width: 400px;
-  margin: 0 auto;
-}
 
-#shopping-list {
-  box-shadow: 20px 20px 0px #656a70;
-}
-
-form {
-  display: flex;
-  flex-direction: row;
-}
-
-form > input {
-  flex-grow: 1;
-  outline: none;
-  padding-left: 4px;
-  border: 0px;
-  height: 20px;
-}
-
-form > button {
-  border: 0px;
-  background: rgb(122, 113, 113);
-  color: white;
-  outline: none;
-
-}
-
-ul {
+.main-wrapper {
+  min-height: 100%;
+  display: grid;
+  max-height: 100%;
+  grid-template-rows: auto 1fr auto;
+  background-color: #558564;
+}ul {
   list-style: none;
   background-color: #558564;
 }
@@ -45,33 +15,9 @@ li {
   background-color: #558564;/*this is the main backgground*/ 
 }
 
-h2 {
-  background: #d1d1d1;
-}
-
-#mainComponent{
-  background-color: brown;
-}
-
-.main-wrapper {
-  min-height: 100%;
-  display: grid;
-  max-height: 100%;
-  grid-template-rows: auto 1fr auto;
-  background-color: #558564;
-}
-
 .content {
-  display: block;
+  display: inline-block;
 }
-
-
-
-
-
-
-
-
 
 .example-container {
   position: absolute;
@@ -82,9 +28,8 @@ h2 {
 }
 
 mat-sidenav {
-  width: 475px;
+  width: 40%;
 }
-
 
 /* Style the navigation menu */
 .topnav2 {
@@ -96,30 +41,6 @@ mat-sidenav {
 .topnav2-component {
   background-color: rgb(255, 255, 255);
 }
-
-/* Hide the links inside the navigation menu (except for logo/home) */
-.topnav2 #myLinks {
-  display: none;
-}
-
-/* Style navigation menu links */
-.topnav2 a {
-  color: white;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  display: block;
-}
-
-  /* Style the hamburger menu */
-  .topnav2 a.icon {
-    background: "#564946";
-    display: block;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
 
 /* Add a grey background color on mouse-over */
 .topnav2 i:hover {
@@ -136,8 +57,6 @@ mat-sidenav {
   background-color: #564946;
 }
 
-
-
 .topnav2 div {
   color: white;
   padding: 14px 16px;
@@ -146,7 +65,12 @@ mat-sidenav {
   display: block;
 }
 
-
 #newsArea {
   background-color: #558564
 }
+#newsArea img {
+  border-radius: 25px;
+  height: 33%;
+  width: 33%;
+}
+

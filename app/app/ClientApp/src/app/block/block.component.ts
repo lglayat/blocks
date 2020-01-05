@@ -23,7 +23,7 @@ export class BlockComponent implements OnInit, OnDestroy {
 
   //booleans for showing/hiding charts
   public showSummary: boolean = false;
-  public showChart: boolean = false;
+  public showHistorical: boolean = false;
   public showIntraday: boolean = true;
   public isIntradayAvailable: boolean = false;
   public isDataAvailable: boolean = false;
@@ -79,13 +79,13 @@ export class BlockComponent implements OnInit, OnDestroy {
 
     var obs2 = this._searchService.searchStockHistorical(this.ticker).pipe(first())
       .subscribe(res => this.drawHistorical(res["_body"]));
-
+      
 
     var format = 'hh:mm:ss'
     var time = moment()
     var beforeTime = moment('09:30:00', format)
     var afterTime = moment('16:00:00', format)
-
+    
     if (time.isBetween(beforeTime, afterTime)) {
 
       console.log('market is open: live updating...')
@@ -139,23 +139,20 @@ export class BlockComponent implements OnInit, OnDestroy {
     if (data == "1 Week") {
       cutOff = moment().subtract(1, 'weeks');
     }
-    else if(data == "1 Month"){
+    else if (data == "1 Month") {
       cutOff = moment().subtract(1, 'months');
     }
-    else if (data == "3 Months") {
-      cutOff = moment().subtract(3, 'months');
-    }
-    else if(data == "6 Months"){
+    else if (data == "6 Months") {
       cutOff = moment().subtract(6, 'months');
     }
-    else if(data == "1 Year"){
+    else if (data == "1 Year") {
       cutOff = moment().subtract(1, 'year');
     }
-    else if(data == "5 Years"){
+    else if (data == "5 Years") {
       cutOff = moment().subtract(5, 'years');
     }
-    else if(data == "10 Years"){
-      cutOff = moment().subtract(10, 'years');
+    else if (data = "Max") {
+      cutOff = moment().subtract(100, 'years');
     }
 
     var returnObj = []
@@ -238,20 +235,20 @@ export class BlockComponent implements OnInit, OnDestroy {
   }
 
   public toggleChart(){
-    this.showChart = true;
+    this.showHistorical = true;
     this.showSummary = false;
     this.showIntraday = false;
   }
 
   public toggleSummary(){
     this.showSummary = true;
-    this.showChart = false;
+    this.showHistorical  = false;
     this.showIntraday = false;
   }
 
   public toggleIntraday(){
     this.showIntraday = true;
-    this.showChart = false;
+    this.showHistorical = false;
     this.showSummary = false;
   }
 
