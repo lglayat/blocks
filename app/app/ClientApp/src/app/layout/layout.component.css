@@ -13,7 +13,7 @@ mat-sidenav {
 /* Style the navigation menu */
 .topnav {
   overflow: hidden;
-  background-color: #333;
+  background-color: #4056A1;
   position: relative;
 }
 
@@ -24,12 +24,15 @@ mat-sidenav {
 
 
 .top {
-  background-color: #564946;
+  background-color: #4056A1;
+  display: inline;
+  overflow: auto;
+  white-space: nowrap;
+  margin: 0px auto;
 }
 
-
 .search {
-  background-color: #558564;
+  background-color: #D79922;
 }
 
 .topnav div {
@@ -40,12 +43,23 @@ mat-sidenav {
   display: block;
 }
 
+
+
+
+
+
 .store {
-  background-color: #6FBAAA;
+  background-color: #C5CBE3;
   min-height: 100%;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  flex-grow: 1;
+
 }
+
+
+
+
 
 div .topIcons {
   top: 50%;
@@ -55,3 +69,5 @@ div .topIcons {
   float: right;
   margin-left: -50%;
 }
+
+

@@ -1,0 +1,19 @@
+.wrap {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+#greetingContent {
+  text-align: center;
+}
+
+ul {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

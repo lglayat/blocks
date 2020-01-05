@@ -1,70 +1,79 @@
-<div class="example-box" cdkDrag >
+<div style="overflow:hidden;" class="example-box" cdkDrag >
   <div class="flex">
     <div class="flex-item">
       <div style="display: block;">
 
         <div *ngIf="isDataAvailable && showHistorical">
           <google-chart #chart
-            [title]="title"
-            [type]="type"
-            [data]="historicalData"
-            [columnNames]="columnNamess"
-            [options]="options"
-            [width]="width"
-            [height]="height">
+                        [title]="title"
+                        [type]="type"
+                        [data]="historicalData"
+                        [columnNames]="columnNamess"
+                        [options]="options"
+                        [width]="width"
+                        [height]="height">
           </google-chart>
         </div>
 
         <div *ngIf="isIntradayAvailable && showIntraday">
-          <google-chart #chart
-            [title]="title"
-            [type]="type"
-            [data]="intradayData"
-            [columnNames]="columnNames"
-            [options]="options"
-            [width]="width"
-            [height]="height">
-          </google-chart>
+          <div class="tw-align-center tw-border-radius-medium tw-c-text-overlay tw-channel-status-text-indicator tw-font-size-6 tw-inline-block tw-pd-x-05">
+
+            <p *ngIf="!afterHours" style="background-color:red;text-align:center;width:20%;">LIVE</p>
+            <p *ngIf="afterHours" style="background-color:lightblue;text-align:center;width:20%;">Mkt Closed</p>
+
+            <google-chart #chart
+                          [title]="title"
+                          [type]="type"
+                          [data]="intradayData"
+                          [columnNames]="columnNames"
+                          [options]="options"
+                          [width]="width"
+                          [height]="height">
+            </google-chart>
+          </div>
+
+          <div *ngIf="isSummaryAvailable && showSummary">
+            <h2> {{summary.name}} </h2>
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td>Symbol  |  {{ summary.symbol  }}</td>
+                  <td>Price  |  {{ summary.price }}</td>
+                </tr>
+                <tr>
+                  <td>Day High  |  {{ summary.dayhigh  }}</td>
+                  <td>Day Low  |  {{ summary.daylow }}</td>
+                </tr>
+                <tr>
+                  <td>EPS  |  {{ summary.eps  }}</td>
+                  <td>PE Ratio  |  {{ summary.pe }}</td>
+                </tr>
+                <tr>
+                  <td>Exchange  |  {{ summary.stockexchangeshort  }}</td>
+                  <td>Market Cap  |  {{ summary.marketcap }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
 
-        <div *ngIf="isSummaryAvailable && showSummary">
-          <h2> {{summary.name}} </h2>
-          <table class="table table-striped">
-            <tbody>
-              <tr>
-                <td>Symbol  |  {{ summary.symbol  }}</td>
-                <td>Price  |  {{ summary.price }}</td>
-              </tr>
-              <tr>
-                <td>Day High  |  {{ summary.dayhigh  }}</td>
-                <td>Day Low  |  {{ summary.daylow }}</td>
-              </tr>
-              <tr>
-                <td>EPS  |  {{ summary.eps  }}</td>
-                <td>PE Ratio  |  {{ summary.pe }}</td>
-              </tr>
-              <tr>
-                <td>Exchange  |  {{ summary.stockexchangeshort  }}</td>
-                <td>Market Cap  |  {{ summary.marketcap }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
         
-      </div>
-      
-      <div class="button-wrapper">
-        <button mat-button color="primary"> {{ticker}} </button>
-        <button mat-button mat-raised-button color="primary" (click)="toggleNews()">News</button>
-        <button *ngIf="!showSummary" mat-button mat-raised-button color="primary" (click)="toggleSummary()">Summary</button>
-        <button *ngIf="showSummary" mat-button mat-raised-button color="accent" (click)="toggleSummary()">Summary</button>
-        <button *ngIf="!showIntraday" mat-button mat-raised-button color="primary" (click)="toggleIntraday()">Intraday</button>
-        <button *ngIf="showIntraday" mat-button mat-raised-button color="accent" (click)="toggleIntraday()">Intraday</button>
-        <button *ngIf="!showHistorical" mat-button mat-raised-button color="primary" (click)="toggleChart()">Historical</button>
-        <button *ngIf="showHistorical" mat-button mat-raised-button color="accent" (click)="toggleChart()">Historical</button>
-        <button mat-button mat-raised-button color="warn" (click)="deleteStock()">Delete</button>
-      </div>
 
-    </div>
+          <div class="button-wrapper">
+            <button mat-button color="primary"> {{ticker}} </button>
+            <button mat-button mat-raised-button color="primary" (click)="toggleNews()">News</button>
+            <button *ngIf="!showSummary" mat-button mat-raised-button color="primary" (click)="toggleSummary()">Summary</button>
+            <button *ngIf="showSummary" mat-button mat-raised-button  (click)="toggleSummary()">Summary</button>
+            <button *ngIf="!showIntraday" mat-button mat-raised-button color="primary" (click)="toggleIntraday()">Intraday</button>
+            <button *ngIf="showIntraday" mat-button mat-raised-button  (click)="toggleIntraday()">Intraday</button>
+            <button *ngIf="!showHistorical" mat-button mat-raised-button color="primary" (click)="toggleChart()">Historical</button>
+            <button *ngIf="showHistorical" mat-button mat-raised-button  (click)="toggleChart()">Historical</button>
+            <button mat-button mat-raised-button color="warn" (click)="deleteStock()">Delete</button>
+          </div>
+   
+  
+
+      </div>
   </div>
 </div>

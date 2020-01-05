@@ -3,7 +3,7 @@
 
     <!-- Left Side -->
     <mat-sidenav #sidenav [mode]="mode.value" class="sidenav">
-      <div class="topnav">
+      <div class="topnav" style="height:100%">
 
         <div class="top"><i class="fa fa-bars" (click)="sidenav.toggle()"></i></div>
 
@@ -12,7 +12,7 @@
         <div class="store">
           <div>Your Selected Stocks</div>
           <ul *ngFor="let s of this.stocks trackBy: trackStocks">
-            <li>{{s.ticker}} <button id={{s.ticker}} mat-button mat-raised-button color="primary" (click)="deleteStock($event)">Delete</button> </li>
+            <li class="storeLi">{{s.ticker}} <button style="float:right;" id={{s.ticker}} mat-button mat-raised-button color="warn" (click)="deleteStock($event)">Delete</button> </li>
           </ul>
         </div>
 
@@ -24,9 +24,14 @@
     <mat-sidenav-content>
 
       <div class="topnav">
+
         <div class="top">
-          <i class="fa fa-bars" (click)="sidenav.toggle()"></i>
-          <button id="about" mat-raised-button (click)="openDialog()">FAQ</button>
+
+          <i  class="fa fa-bars" (click)="sidenav.toggle()"></i>
+         
+          <button style="float:right;" id="about" mat-raised-button  (click)="openDialog()">FAQ</button>
+          
+
         </div>
       </div>
 

@@ -85,19 +85,25 @@ export class BlockComponent implements OnInit, OnDestroy {
     var time = moment()
     var beforeTime = moment('09:30:00', format)
     var afterTime = moment('16:00:00', format)
+
     
-    if (time.isBetween(beforeTime, afterTime)) {
+    if ( time.isBetween(beforeTime, afterTime) && time.weekday() > 0 && time.weekday() < 7 ) {
 
       console.log('market is open: live updating...')
+
+      this.afterHours = false;
+
       const source = timer(0, 60000 /*300000*/);
       const s = source.subscribe(val => this._searchService.searchStockIntraday(this.ticker)
         .subscribe(res => this.drawIntraday(res["_body"])));
 
-      this.afterHours = false;
-
+ 
     } else {
 
       console.log('after hours')
+
+      this.afterHours = true;
+
       var obs2 = this._searchService.searchStockIntraday(this.ticker).pipe(first())
         .subscribe(res => this.drawIntraday(res["_body"]));
 
@@ -115,21 +121,35 @@ export class BlockComponent implements OnInit, OnDestroy {
       var returnObj = []
       var obj = JSON.parse(data);
 
-      console.log(obj)
+      //console.log(obj)
 
     let counter = 0;
     for (var item in obj["intraday"]) {
-      if (counter < 40) {
+      if (counter < 50) {
         var ref = obj["intraday"][item];
         var arr = item.split(' '); //get label
         let label = arr[1].slice(0, -3)
-        returnObj.push([label, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
+        let trimmedLabel = this.trimLabel(label)
+        returnObj.push([trimmedLabel, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
         counter++;
       }
      }
 
     this.intradayData = returnObj.splice(0,50).reverse();
      this.isIntradayAvailable = true;
+  }
+
+  trimLabel(label) {
+
+    let date = label.split(':');
+    let hours = Number(date[0]);
+    let minutes = Number(date[1]);
+    
+    if (hours > 12) {
+      hours = hours - 12;
+    }
+
+    return hours.toString() + ":" + minutes.toString();
   }
 
   updateInterval(data){

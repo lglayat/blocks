@@ -18,8 +18,8 @@
 
         <div id="newsArea" #newsArea *ngFor="let news of allNewsData">
           <div id="newsContent">
-            <h4><a href="{{news.news_url}}" style="color:white;">{{news.title}} </a></h4>
-            <p>{{news.source_name}}</p>
+            <h5><a href="{{news.news_url}}" style="color:black;">{{news.title}} </a></h5>
+            <p style="color:black">{{news.source_name}}</p>
             <!--{{news.text}}-->
 
           </div>

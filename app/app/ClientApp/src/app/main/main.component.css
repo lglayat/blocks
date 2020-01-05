@@ -4,15 +4,14 @@
   display: grid;
   max-height: 100%;
   grid-template-rows: auto 1fr auto;
-  background-color: #558564;
-}ul {
-  list-style: none;
-  background-color: #558564;
+  background-color: #EFE2BA; /*this is the main backgground*/
 }
-
-/*this is the main backgground*/ 
+ul {
+  list-style: none;
+  background-color: #EFE2BA; /*this is the main backgground*/
+}
 li {
-  background-color: #558564;/*this is the main backgground*/ 
+  background-color: #EFE2BA; /*this is the main backgground*/
 }
 
 .content {
@@ -34,7 +33,7 @@ mat-sidenav {
 /* Style the navigation menu */
 .topnav2 {
   overflow: hidden;
-  background-color: #333;
+  background-color: #4056A1;
   position: relative;
 }
 
@@ -54,7 +53,7 @@ mat-sidenav {
 }
 
 .top2 {
-  background-color: #564946;
+  background-color: #4056A1;
 }
 
 .topnav2 div {
@@ -66,8 +65,12 @@ mat-sidenav {
 }
 
 #newsArea {
-  background-color: #558564
+  background-color: #C5CBE3;
+  display: flex;
+  align-items: center;
+  
 }
+
 #newsArea img {
   border-radius: 25px;
   height: 33%;
