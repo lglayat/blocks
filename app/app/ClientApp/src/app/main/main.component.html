@@ -17,15 +17,15 @@
         </div>
 
         <div id="newsArea" #newsArea *ngFor="let news of allNewsData">
+
           <div id="newsContent">
             <h5><a href="{{news.news_url}}" style="color:black;">{{news.title}} </a></h5>
             <p style="color:black">{{news.source_name}}</p>
-            <!--{{news.text}}-->
-
           </div>
        
           <img  src="{{news.image_url}}" alt="/" height="100" width="100" />
           <mat-divider></mat-divider>
+
         </div>
 
       </div>

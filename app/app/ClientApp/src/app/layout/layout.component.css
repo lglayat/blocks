@@ -54,7 +54,6 @@ mat-sidenav {
   display: grid;
   grid-template-rows: auto 1fr auto;
   flex-grow: 1;
-
 }
 
 
