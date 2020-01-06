@@ -56,7 +56,8 @@ export class LayoutComponent implements OnInit {
     this.busy = true;
     const dialogRef = this.dialog.open(GreetingComponent, {
       width: '50%',
-      height: '50%'
+      height: '50%',
+      panelClass: 'my-greeting'
     });
 
     dialogRef.afterOpened().subscribe(result => {

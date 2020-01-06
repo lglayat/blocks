@@ -19,7 +19,7 @@ export class SearchService {
 
   search(queryString: string) {
     //let _URL = "https://d.yimg.com/autoc.finance.yahoo.com/autoc?query=" + queryString + "&lang=ENG";
-
+    console.log(this._http.get("https://api.worldtradingdata.com/api/v1/stock_search?search_term=" + queryString + "&search_by=symbol,name&limit=5&page=1&api_token=" + this.API_TOKEN));
     return this._http.get("https://api.worldtradingdata.com/api/v1/stock_search?search_term=" + queryString +  "&search_by=symbol,name&limit=5&page=1&api_token=" + this.API_TOKEN);
   }
 

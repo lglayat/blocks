@@ -189,7 +189,8 @@ export class BlockComponent implements OnInit, OnDestroy {
   }
 
 
-  makeSummary(data){
+  makeSummary(data) {
+    console.log(data)
     var obj = JSON.parse(data);
     var ref = obj["data"][0];
 
@@ -213,7 +214,7 @@ export class BlockComponent implements OnInit, OnDestroy {
       eps: ref.eps
     };
 
-    //console.log(s);
+    console.log(s);
     if(s.symbol != null){
       this.summary = s;
 
@@ -254,7 +255,7 @@ export class BlockComponent implements OnInit, OnDestroy {
     this.destroyCheck.emit('destroyed');
   }
 
-  public toggleChart(){
+  public toggleHistorical(){
     this.showHistorical = true;
     this.showSummary = false;
     this.showIntraday = false;

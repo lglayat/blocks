@@ -1,7 +1,7 @@
-<mat-toolbar>  
+<mat-toolbar style="background-color: #C5CBE3;">  
   <mat-toolbar-row>
     <mat-label> Historical Data Filter:  </mat-label>
-    <div style="padding-left:1%" class="btn-group" dropdown>
+    <div style="padding-left:2%;padding-right:2%" class="btn-group" dropdown>
       <button id="button-animated" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
               aria-controls="dropdown-animated">
         {{ this.interval.length > 0  ? this.interval : 'Set Interval' }} <span class="caret"></span>
@@ -15,8 +15,14 @@
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">Max</a></li>
 
       </ul>
+
+
     </div>
 
+    <mat-label> Market Status:  </mat-label>
+    
+    <p *ngIf="!afterHours" style="background-color:red;text-align:center;width:12%;border-radius: 7%;">Open</p>
+    <p *ngIf="afterHours" style="background-color:lightblue;text-align:center;width:12%;border-radius: 7%;">Market Closed</p>
 
   </mat-toolbar-row>
   

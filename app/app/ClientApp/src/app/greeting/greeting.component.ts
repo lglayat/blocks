@@ -5,7 +5,6 @@ import { Component,
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
-
 @Component({
     selector: 'app-greeting',
     templateUrl: './greeting.component.html',
@@ -14,6 +13,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 
 export class GreetingComponent implements OnInit {
 
+  afterHours: boolean;
+
   constructor(public dialogRef: MatDialogRef<GreetingComponent>) { }
 
   onNoClick(): void {
@@ -21,6 +22,8 @@ export class GreetingComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
   }
 
   }

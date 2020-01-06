@@ -17,3 +17,14 @@ code {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.my-greeting .mat-dialog-container {
+  overflow: hidden;
+  border-radius: 5%;
+  border-width:7%;
+  padding: 5%;
+  background-color: #C5CBE3;
+  border-color: #D79922;
+  border-style:outset
+}
