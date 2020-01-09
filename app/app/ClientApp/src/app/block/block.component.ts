@@ -10,7 +10,6 @@ import { AppState } from '../store/app-state.model';
 import { DeleteStockAction } from '../store/stock.actions';
 import { Stock }  from '../store/stock.model';
 import * as moment from 'moment'
-import { ResizedEvent } from 'angular-resize-event';
 
 @Component({
   selector: 'app-block',
