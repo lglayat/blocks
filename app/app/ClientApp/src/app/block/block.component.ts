@@ -10,6 +10,7 @@ import { AppState } from '../store/app-state.model';
 import { DeleteStockAction } from '../store/stock.actions';
 import { Stock }  from '../store/stock.model';
 import * as moment from 'moment'
+import { ResizedEvent } from 'angular-resize-event';
 
 @Component({
   selector: 'app-block',
@@ -28,6 +29,11 @@ export class BlockComponent implements OnInit, OnDestroy {
   public isIntradayAvailable: boolean = false;
   public isDataAvailable: boolean = false;
   public isSummaryAvailable: boolean = false;
+
+  public isGrown: boolean = false;
+  large: boolean = false;
+  small: boolean = true;
+
 
   //time interval
   currentInterval: string;
@@ -52,9 +58,11 @@ export class BlockComponent implements OnInit, OnDestroy {
     }
   };
 
-  width = 500;
-  height = 300;
-
+  //width = 500;
+  //height = 375;
+  width= $(window).width()*0.30
+  height= $(window).height()*0.25
+  
   constructor(
     private _searchService: SearchService,
     private store: Store<AppState>,
@@ -93,7 +101,7 @@ export class BlockComponent implements OnInit, OnDestroy {
 
       this.afterHours = false;
 
-      const source = timer(0, 60000 /*300000*/);
+      const source = timer(0, 60000);
       const s = source.subscribe(val => this._searchService.searchStockIntraday(this.ticker)
         .subscribe(res => this.drawIntraday(res["_body"])));
 
@@ -108,6 +116,7 @@ export class BlockComponent implements OnInit, OnDestroy {
         .subscribe(res => this.drawIntraday(res["_body"]));
 
     }
+  
   }
 
 
@@ -261,21 +270,57 @@ export class BlockComponent implements OnInit, OnDestroy {
     this.showIntraday = false;
   }
 
-  public toggleSummary(){
-    this.showSummary = true;
-    this.showHistorical  = false;
-    this.showIntraday = false;
-  }
-
   public toggleIntraday(){
+   
     this.showIntraday = true;
     this.showHistorical = false;
     this.showSummary = false;
+  }
+
+  public toggleSummary(){
+    if(this.isGrown == true){
+      this.resize();
+    }
+
+    this.showSummary = true;
+    this.showHistorical  = false;
+    this.showIntraday = false;
   }
 
   onActivate(data): void {
     console.log('Activate', JSON.parse(JSON.stringify(data)));
   }
 
+  resize() {
+    if(this.showSummary == false){
+
+      if (this.isGrown == true) {
+        console.log("shrinking!");
+        this.large = false;
+        //this.width = 500;
+        //this.height = 370;
+        
+        this.width= $(window).width()*0.30,
+        this.height= $(window).height()*0.25
+        
+        this.isGrown = false;
+
+      }
+      else {
+        console.log("growing");
+        this.large = true;
+        //this.width = 1500;
+        //this.height = 1000;
+
+
+        this.width= $(window).width()*0.75,
+        this.height= $(window).height()*0.75
+        this.isGrown = true;
+      }
+    }
+    else{
+      alert("can only resize on charts!")
+    }    
+  }
 
 }

@@ -57,7 +57,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
     StoreModule.forRoot({stocks: StockReducer}),
     EffectsModule.forRoot([AppEffects]),
     GoogleChartsModule.forRoot(),
-    CommonModule
+    CommonModule,
   ],
   providers: [SearchService, ToolbarService],
   bootstrap: [AppComponent],

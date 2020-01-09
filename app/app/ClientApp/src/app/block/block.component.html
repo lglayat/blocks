@@ -1,5 +1,5 @@
-<div style="overflow:hidden;" class="example-box" cdkDrag >
-  <div class="flex">
+<div style="overflow:hidden;" class="example-box" cdkDrag [class.large]="large" [class.small]="!large"  >
+  <div class="flex" >
     <div class="flex-item">
       <div style="display: block;">
 
@@ -28,7 +28,7 @@
             </google-chart>
          </div>
 
-        <div *ngIf="isSummaryAvailable && showSummary">
+        <div *ngIf="isSummaryAvailable && showSummary" >
           <h2> {{summary.name}} </h2>
           <table class="table table-striped">
             <tbody>
@@ -69,20 +69,20 @@
         </div>
 
         <div class="button-wrapper">
-          <button mat-button color="primary"> {{ticker}} </button>
+          <button  mat-button color="primary" (click)="resize($event)"> {{ticker}} </button>
 
-          <button mat-button mat-raised-button color="primary" (click)="toggleNews()">News</button>
+          <button  mat-button mat-raised-button color="primary" (click)="toggleNews()">News</button>
 
           <button *ngIf="!showSummary" mat-button mat-raised-button color="primary" (click)="toggleSummary()">Summary</button>
-          <button *ngIf="showSummary" mat-button mat-raised-button  (click)="toggleSummary()">Summary</button>
+          <button  *ngIf="showSummary" mat-button mat-raised-button  (click)="toggleSummary()">Summary</button>
 
-          <button *ngIf="!showIntraday" mat-button mat-raised-button color="primary" (click)="toggleIntraday()">Intraday</button>
-          <button *ngIf="showIntraday" mat-button mat-raised-button  (click)="toggleIntraday()">Intraday</button>
+          <button  *ngIf="!showIntraday" mat-button mat-raised-button color="primary" (click)="toggleIntraday()">Intraday</button>
+          <button  *ngIf="showIntraday" mat-button mat-raised-button  (click)="toggleIntraday()">Intraday</button>
 
-          <button *ngIf="!showHistorical" mat-button mat-raised-button color="primary" (click)="toggleHistorical()">Historical</button>
-          <button *ngIf="showHistorical" mat-button mat-raised-button  (click)="toggleHistorical()">Historical</button>
+          <button  *ngIf="!showHistorical" mat-button mat-raised-button color="primary" (click)="toggleHistorical()">Historical</button>
+          <button  *ngIf="showHistorical" mat-button mat-raised-button  (click)="toggleHistorical()">Historical</button>
 
-          <button mat-button mat-raised-button color="warn" (click)="deleteStock()">Delete</button>
+          <button  mat-button mat-raised-button color="warn" (click)="deleteStock()">Delete</button>
         </div>
       </div>
   </div>
