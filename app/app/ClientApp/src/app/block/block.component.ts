@@ -4,7 +4,7 @@ import { ToolbarService } from "../services/toolbar.service";
 import { NewsService } from "../services/news.service";
 import { Summary } from './Summary';
 import { first } from 'rxjs/operators';
-import { timer } from 'rxjs';
+import { timer, fromEvent, Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { AppState } from '../store/app-state.model';
 import { DeleteStockAction } from '../store/stock.actions';
@@ -60,7 +60,7 @@ export class BlockComponent implements OnInit, OnDestroy {
   //width = 500;
   //height = 375;
   width= $(window).width()*0.30
-  height= $(window).height()*0.25
+  height= $(window).height()*0.27
   
   constructor(
     private _searchService: SearchService,
@@ -75,8 +75,17 @@ export class BlockComponent implements OnInit, OnDestroy {
 
   }
 
+  resizeObservable$: Observable<Event>
+  resizeSubscription$: Subscription
+
 
   ngOnInit() {
+
+    this.resizeObservable$ = fromEvent(window, 'resize')
+    this.resizeSubscription$ = this.resizeObservable$.subscribe(evt => {
+      this.resizeChart(evt)
+    })
+
 
     console.log("Ticker: " + this.ticker);
 
@@ -118,6 +127,11 @@ export class BlockComponent implements OnInit, OnDestroy {
   
   }
 
+  resizeChart(event) {
+    this.width = $(window).width() * 0.30
+    this.height = $(window).height() * 0.27
+  }
+
 
   toggleNews() {
     console.log()
@@ -126,24 +140,22 @@ export class BlockComponent implements OnInit, OnDestroy {
 
 
   drawIntraday(data) {
-      var returnObj = []
-      var obj = JSON.parse(data);
-
-      //console.log(obj)
+     var returnObj = []
+     var obj = JSON.parse(data);
 
     let counter = 0;
     for (var item in obj["intraday"]) {
-      if (counter < 50) {
-        var ref = obj["intraday"][item];
-        var arr = item.split(' '); //get label
-        let label = arr[1].slice(0, -3)
-        let trimmedLabel = this.trimLabel(label)
-        returnObj.push([trimmedLabel, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
-        counter++;
-      }
-     }
+        if (counter < 50) {
+          var ref = obj["intraday"][item];
+          var arr = item.split(' '); //get label
+          let label = arr[1].slice(0, -3)
+          let trimmedLabel = this.trimLabel(label)
+          returnObj.push([trimmedLabel, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
+          counter++;
+        }
+    }
 
-    this.intradayData = returnObj.splice(0,50).reverse();
+     this.intradayData = returnObj.splice(0,50).reverse();
      this.isIntradayAvailable = true;
   }
 
