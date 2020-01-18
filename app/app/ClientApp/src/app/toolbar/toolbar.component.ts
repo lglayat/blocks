@@ -21,9 +21,10 @@ export class ToolbarComponent implements OnInit {
     var time = moment()
     var beforeTime = moment('09:30:00', format)
     var afterTime = moment('16:00:00', format)
+    var d = new Date();
+    var day = d.getDay();
 
-
-    if (time.isBetween(beforeTime, afterTime) && time.weekday() > 0 && time.weekday() < 7) {
+    if (time.isBetween(beforeTime, afterTime) && day > 6) {
 
       this.afterHours = false;
 

@@ -6,9 +6,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 
 
 @Component({
-    selector: 'app-greeting',
-    templateUrl: './greeting.component.html',
-    styleUrls: ['./greeting.component.css']
+  selector: 'app-greeting',
+  templateUrl: './greeting.component.html',
+  styleUrls: ['./greeting.component.css']
 })
 
 export class GreetingComponent implements OnInit {
@@ -26,4 +26,4 @@ export class GreetingComponent implements OnInit {
 
   }
 
-  }
+}

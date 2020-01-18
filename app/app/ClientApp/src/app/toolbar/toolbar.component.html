@@ -13,18 +13,13 @@
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">1 Year</a></li>
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">5 Years</a></li>
         <li (click)="setInterval($event)" role="menuitem"><a class="dropdown-item" href="#">Max</a></li>
-
       </ul>
-
-
     </div>
 
     <mat-label> Market Status:  </mat-label>
-    
-    <p *ngIf="!afterHours" style="background-color:red;text-align:center;width:12%;border-radius: 7%;">Open</p>
-    <p *ngIf="afterHours" style="background-color:lightblue;text-align:center;width:12%;border-radius: 7%;">Market Closed</p>
+    <mat-label id="marketStatus" *ngIf="!afterHours" style="background-color:red;"> Open  </mat-label>
+    <mat-label id="marketStatus" *ngIf="afterHours" style="background-color:lightskyblue;"> Closed  </mat-label>
 
   </mat-toolbar-row>
-  
-  
-  </mat-toolbar>
+   
+</mat-toolbar>

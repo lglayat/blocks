@@ -15,3 +15,10 @@
 ul {
  
 }
+
+img {
+  display: block;
+  margin: auto;
+  height: 70%;
+  width: 65%;
+}

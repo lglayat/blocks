@@ -29,10 +29,12 @@ export class BlockComponent implements OnInit, OnDestroy {
   public isDataAvailable: boolean = false;
   public isSummaryAvailable: boolean = false;
 
+  //variables/objects for growing/shrinking blocks
   public isGrown: boolean = false;
   large: boolean = false;
   small: boolean = true;
-
+  resizeObservable$: Observable<Event>
+  resizeSubscription$: Subscription
 
   //time interval
   currentInterval: string;
@@ -45,20 +47,26 @@ export class BlockComponent implements OnInit, OnDestroy {
 
   //chart variables
   title = this.ticker;
-  type = 'CandlestickChart';
+  intradayType = 'CandlestickChart';
+  historicalType = 'LineChart'
   intradayData = [];
   historicalData: any[] = [];
   columnNames = ["Date", "Price", "Low", "Open", "Close"];
-
-  options = {
+  historicalOptions = {
+    title: this.ticker,
+    animation: {
+      duration: 500,
+      startup: true
+    }
+  }
+  intradayOptions = {
     candlestick: {
       risingColor: { strokeWidth: 0, fill: '#0f9d58' },
       fallingColor: { strokeWidth: 0, fill: '#a52714' },
+      
     }
   };
 
-  //width = 500;
-  //height = 375;
   width= $(window).width()*0.30
   height= $(window).height()*0.27
   
@@ -74,10 +82,6 @@ export class BlockComponent implements OnInit, OnDestroy {
       })
 
   }
-
-  resizeObservable$: Observable<Event>
-  resizeSubscription$: Subscription
-
 
   ngOnInit() {
 
@@ -102,8 +106,11 @@ export class BlockComponent implements OnInit, OnDestroy {
     var beforeTime = moment('09:30:00', format)
     var afterTime = moment('16:00:00', format)
 
+    var d = new Date();
+    var day = d.getDay();
+    console.log(day)
     
-    if ( time.isBetween(beforeTime, afterTime) && time.weekday() > 0 && time.weekday() < 7 ) {
+    if ( time.isBetween(beforeTime, afterTime) && day < 6 ) {
 
       console.log('market is open: live updating...')
 
@@ -132,12 +139,10 @@ export class BlockComponent implements OnInit, OnDestroy {
     this.height = $(window).height() * 0.27
   }
 
-
   toggleNews() {
     console.log()
     this._newsService.announceNews(this.ticker);
    }
-
 
   drawIntraday(data) {
      var returnObj = []
@@ -176,24 +181,27 @@ export class BlockComponent implements OnInit, OnDestroy {
     //console.log("new interval "  + data);
     var cutOff;
 
-    if (data == "1 Week") {
-      cutOff = moment().subtract(1, 'weeks');
+    switch (data){
+      case "1 Week":
+        cutOff = moment().subtract(1, 'weeks');
+        break;
+      case "1 Month":
+        cutOff = moment().subtract(1, 'months');
+        break;
+      case "6 Months":
+        cutOff = moment().subtract(6, 'months');
+        break;
+      case "1 Year":
+        cutOff = moment().subtract(1, 'year');
+        break;
+      case "5 Years":
+        cutOff = moment().subtract(5, 'years');
+        break;
+      case "Max":
+        cutOff = moment().subtract(200, 'years');
+        break;
     }
-    else if (data == "1 Month") {
-      cutOff = moment().subtract(1, 'months');
-    }
-    else if (data == "6 Months") {
-      cutOff = moment().subtract(6, 'months');
-    }
-    else if (data == "1 Year") {
-      cutOff = moment().subtract(1, 'year');
-    }
-    else if (data == "5 Years") {
-      cutOff = moment().subtract(5, 'years');
-    }
-    else if (data = "Max") {
-      cutOff = moment().subtract(100, 'years');
-    }
+
 
     var returnObj = []
 
@@ -207,7 +215,6 @@ export class BlockComponent implements OnInit, OnDestroy {
     }
     this.historicalData = returnObj;
   }
-
 
   makeSummary(data) {
     console.log(data)
@@ -254,7 +261,7 @@ export class BlockComponent implements OnInit, OnDestroy {
         var ref = obj["history"][item];
         var arr = item.split(' '); //get label
         let label = arr[0]//.substring(2)
-        returnObj.push([ label, parseFloat(ref["low"]), parseFloat(ref["open"]), parseFloat(ref["close"]), parseFloat(ref["high"])])
+        returnObj.push([ label,  parseFloat(ref["close"]) ])
         counter = 1;
       }
       counter++;
@@ -273,6 +280,7 @@ export class BlockComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.destroyCheck.emit('destroyed');
+    this.resizeSubscription$.unsubscribe();
   }
 
   public toggleHistorical(){

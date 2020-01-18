@@ -6,10 +6,10 @@
         <div *ngIf="isDataAvailable && showHistorical">
           <google-chart #chart
                 [title]="title"
-                [type]="type"
+                [type]="historicalType"
                 [data]="historicalData"
                 [columnNames]="columnNamess"
-                [options]="options"
+                [options]="historicalOptions"
                 [width]="width"
                 [height]="height">
           </google-chart>
@@ -19,10 +19,10 @@
 
             <google-chart #chart
                 [title]="title"
-                [type]="type"
+                [type]="intradayType"
                 [data]="intradayData"
                 [columnNames]="columnNames"
-                [options]="options"
+                [options]="intradayOptions"
                 [width]="width"
                 [height]="height">
             </google-chart>
