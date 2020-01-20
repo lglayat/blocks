@@ -93,14 +93,15 @@ export class BlockComponent implements OnInit, OnDestroy {
 
     console.log("Ticker: " + this.ticker);
 
-    
+    //Get summary
     var obs = this._searchService.searchStockDetail(this.ticker).pipe(first())
       .subscribe(res => this.makeSummary(res["_body"]));;
 
+    //get historical data
     var obs2 = this._searchService.searchStockHistorical(this.ticker).pipe(first())
       .subscribe(res => this.drawHistorical(res["_body"]));
       
-
+    //check if the market is open, then subscribe to intraday accordingly
     var format = 'hh:mm:ss'
     var time = moment()
     var beforeTime = moment('09:30:00', format)
