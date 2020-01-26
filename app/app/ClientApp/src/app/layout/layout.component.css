@@ -22,7 +22,6 @@ mat-sidenav {
   color: rgb(165, 160, 160);
 }
 
-
 .top {
   background-color: #4056A1;
   display: inline;
@@ -43,11 +42,6 @@ mat-sidenav {
   display: block;
 }
 
-
-
-
-
-
 .store {
   background-color: #C5CBE3;
   min-height: 100%;
@@ -55,9 +49,6 @@ mat-sidenav {
   grid-template-rows: auto 1fr auto;
   flex-grow: 1;
 }
-
-
-
 
 
 div .topIcons {
